@@ -1,3 +1,6 @@
+'''
+Code for paper: Nonparametric Bayesian Multi-Facet Clustering for Longitudinal Data
+'''
 from abc import ABC, abstractmethod
 import numpy as np
 from numpy import linalg as LA
