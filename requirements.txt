@@ -1,0 +1,17 @@
+# Specify the Python version
+python_version == 3.12.3
+
+# Required packages
+matplotlib
+numpy
+pandas
+pyreadr
+xarray
+patsy
+scipy
+scikit-learn
+networkx
+tqdm
+plotext
+seaborn
+prettytable
