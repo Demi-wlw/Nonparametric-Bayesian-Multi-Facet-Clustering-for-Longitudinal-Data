@@ -24,7 +24,9 @@ print('Optimal ELBOs of diff models:\n', ELBOs)
 model_idx = np.nanargmax(ELBOs, axis=0)[1]
 model = paral_res[model_idx]
 print('Best model at index:', model_idx, "with ELBO:", np.round(model.ELBO_iters[-1],2),"; Model seed:", model.seed)
-model.printRes()
+model.printRes() # print estimated results and sd; can also print ground truth if provided (a,pi_a,beta/Beta,pi_beta/pi_Beta,sigma,pi_sigma)
 model.plotFacet()
-model.showClust()
+model.showClust() # plot contingency table of cluster assignments for intercepts and coefficients
+model.getEstimates() # get all estimates for customised analysis and plots
+model.save(filePath)
 ```
