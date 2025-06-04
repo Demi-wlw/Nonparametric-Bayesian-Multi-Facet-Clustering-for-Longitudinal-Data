@@ -27,6 +27,6 @@ print('Best model at index:', model_idx, "with ELBO:", np.round(model.ELBO_iters
 model.printRes() # print estimated results and sd; can also print ground truth if provided (a,pi_a,beta/Beta,pi_beta/pi_Beta,sigma,pi_sigma)
 model.plotFacet()
 model.showClust() # plot contingency table of cluster assignments for intercepts and coefficients
-model.getEstimates() # get all estimates for customised analysis and plots
+model.getEstimates() # get all estimates for customized analysis and plots
 model.save(filePath)
 ```
