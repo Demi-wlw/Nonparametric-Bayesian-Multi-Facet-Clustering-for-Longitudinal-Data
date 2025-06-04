@@ -1,5 +1,5 @@
 # Nonparametric-Bayesian-Multi-Facet-Clustering-for-Longitudinal-Data
-Code for UAI paper: Nonparametric Bayesian Multi-Facet Clustering for Longitudinal Data
+Code for UAI paper: [Nonparametric Bayesian Multi-Facet Clustering for Longitudinal Data]( https://openreview.net/forum?id=o7xZLAheJ5)
 
 - Author: [Luwei Wang](https://demi-wlw.github.io/)
 
