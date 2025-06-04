@@ -1,6 +1,10 @@
 # Nonparametric-Bayesian-Multi-Facet-Clustering-for-Longitudinal-Data
 Code for UAI paper: Nonparametric Bayesian Multi-Facet Clustering for Longitudinal Data
 
+We implemented two example time series models for multi-facet clustering:
+1. Nonlinear growth model (single-dimensional, **MFNLG**)
+2. Vector autoregressive model (multi-dimensional, **MFVAR**)
+
 ## Example for running the method
 ```python
 import numpy as np
