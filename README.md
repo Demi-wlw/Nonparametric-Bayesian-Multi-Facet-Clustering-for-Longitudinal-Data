@@ -1,5 +1,5 @@
 # Nonparametric-Bayesian-Multi-Facet-Clustering-for-Longitudinal-Data
-Code for paper: Nonparametric Bayesian Multi-Facet Clustering for Longitudinal Data
+Code for UAI paper: Nonparametric Bayesian Multi-Facet Clustering for Longitudinal Data
 
 ## Example for running the method
 ```python
