@@ -4,10 +4,21 @@ Code for UAI paper: [Nonparametric Bayesian Multi-Facet Clustering for Longitudi
 - Author: [Luwei Wang](https://demi-wlw.github.io/)
 
 We implemented two example time series models for multi-facet clustering:
-1. Nonlinear growth model (single-dimensional, `MFNLG`, allows missing values)
-2. Vector autoregressive model (multi-dimensional, `MFVAR`, allows varying time series lengths)
+1. Nonlinear growth model (single-dimensional, B-spline-based, `MFNLG`, allows missing values)
+   > Facets: intercept at time T; shape; noise
+3. Vector autoregressive model (multi-dimensional, one lag, `MFVAR`, allows varying time series lengths)
+   > Facets: intercept vector; transition matrix (interaction); noise vector
 
-## Example for running the method
+## Function descriptions ##
+1. `.MFNLG()` and `.MFVAR()`: create an initial model with data information and specific time series model parameters.
+2. `.initialize()`: initialize model parameters and hyperparameters of priors through a dictionary.
+3. `.fit()`: start fitting by mean-field Variational Inference.
+   - We recommend running the model fitting through multiple parallel runs to avoid getting stuck in the bad optima.
+4. The fitted model only returns important hyperparameters, ELBOs and training time. If you want to get estimated parameters, call `.getEstimates()`.
+5. There are built-in print and plot functions to print fitting results (with ground truth if provided) `.printRes()`, visualise facets `.plotFacet()` and show facet cluster assignments. You can also define your own print and plot functions.
+6. `.save()`: save the model
+
+## Example code for running the method
 ```python
 import numpy as np
 from NPBayesMFVI import MFNLG, MFVAR
