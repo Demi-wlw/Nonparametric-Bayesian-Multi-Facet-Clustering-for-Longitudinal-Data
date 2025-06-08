@@ -11,7 +11,7 @@ We implemented two example time series models for multi-facet clustering:
 
 ## Function descriptions ##
 1. `.MFNLG()` and `.MFVAR()`: create an initial model with data information and specific time series model parameters.
-2. `.initialize()`: initialize model parameters and hyperparameters of priors through a dictionary.
+2. `.initialize()`: initialize model parameters and change hyperparameters of priors through a dictionary.
 3. `.fit()`: start fitting by mean-field Variational Inference.
    - We recommend running the model fitting through multiple parallel runs to avoid getting stuck in the bad local optima.
 4. The fitted model only returns important hyperparameters, ELBOs and training time. If you want to get estimated parameters, call `.getEstimates()`.
