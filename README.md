@@ -15,7 +15,7 @@ We implemented two example time series models for multi-facet clustering:
 3. `.fit()`: start fitting by mean-field Variational Inference.
    - We recommend running the model fitting through multiple parallel runs to avoid getting stuck in the bad local optima.
 4. The fitted model only returns important hyperparameters, ELBOs and training time. If you want to get estimated parameters, call `.getEstimates()`.
-5. There are built-in print and plot functions to print fitting results (with ground truth if provided) `.printRes()`, visualise facets `.plotFacet()` and show facet cluster assignments. You can also define your own print and plot functions.
+5. There are built-in print and plot functions to print fitting results (with ground truth if provided) `.printRes()`, visualise facets `.plotFacet()` and show facet cluster assignments `.showClust()`. You can also define your own print and plot functions.
 6. `.save()`: save the model
 
 ## Example code for running the method
