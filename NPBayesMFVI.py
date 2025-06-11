@@ -671,6 +671,7 @@ class MFNLG(MFVI):
             self.K -= np.min([len(pruned_idx_a), len(pruned_idx_beta), len(pruned_idx_tau)]) # also consider noise cluster
             #self.K -= np.min([len(pruned_idx_a), len(pruned_idx_beta)]) # new K
             self.Ka -= len(pruned_idx_a); self.Kbeta -= len(pruned_idx_beta); self.Ktau -= len(pruned_idx_tau)
+            #? may also consider empirical number of clusters as new Ka, Kbeta, Ktau
             self.__piStar_a[:,:self.Ka] = softmax(self.__piStar_a[:,:self.Ka], axis=1) # renormalize to sum to 1 (this function is stable)
             self.__piStar_beta[:,:self.Kbeta] = softmax(self.__piStar_beta[:,:self.Kbeta], axis=1) # (no floating point error)
             self.__piStar_tau[:,:self.Ktau] = softmax(self.__piStar_tau[:,:self.Ktau], axis=1)
@@ -749,6 +750,17 @@ class MFNLG(MFVI):
         est_Ztau = np.array([est_Ztau_map[i] for i in self.__est_Ztau])
         return {"intercept":est_a_, "intercept_sd": est_a_sd, "B_coef":est_beta_, "B_coef_sd": est_beta_sd, "sigma":est_sigma, "sigma_sd":est_sigma_sd,\
             "a_clust":est_Za, "beta_clust":est_Zbeta, "sigma_clust":est_Ztau, "pi_a":est_pi_a_, "pi_beta":est_pi_beta_, "pi_sigma":est_pi_tau_}
+
+    def getPiMat(self):
+        """Get the original pi est. and matrices for a, beta, tau
+
+        Returns:
+            piMat (dict): dictionary of pi matrices and estimated pi for a, beta, tau.
+        """
+        if len(self.ELBO_iters) == 1:
+            raise ValueError('Please fit the model first!')
+        piMat = {"PiMat_a": self.__piStar_a[:,:self.Ka], "PiMat_beta": self.__piStar_beta[:,:self.Kbeta], "PiMat_tau": self.__piStar_tau[:,:self.Ktau], "pi_a": self.__est_pi_a[:self.Ka], "pi_Beta": self.__est_pi_beta[:self.Kbeta], "pi_tau": self.__est_pi_tau[:self.Ktau]}
+        return piMat
 
     def checkEstError(self, estDict: dict=None, Gtruth: dict=None, plot: bool=False):
         """Check the relative L2 error of the estimates (with ground truth)
@@ -1452,6 +1464,7 @@ class MFVAR(MFVI):
             self.K -= np.min([len(pruned_idx_a), len(pruned_idx_Beta), len(pruned_idx_tau)]) # also consider noise cluster
             #self.K -= np.min([len(pruned_idx_a), len(pruned_idx_Beta)]) # new K
             self.Ka -= len(pruned_idx_a); self.KBeta -= len(pruned_idx_Beta); self.Ktau -= len(pruned_idx_tau)
+            #? may also consider empirical number of clusters as new Ka, KBeta, Ktau
             self.__piStar_a[:,:self.Ka] = softmax(self.__piStar_a[:,:self.Ka], axis=1) # renormalize to sum to 1 (this function is stable)
             self.__piStar_Beta[:,:self.KBeta] = softmax(self.__piStar_Beta[:,:self.KBeta], axis=1) # (no floating point error)
             self.__piStar_tau[:,:self.Ktau] = softmax(self.__piStar_tau[:,:self.Ktau], axis=1)
@@ -1532,6 +1545,17 @@ class MFVAR(MFVI):
         est_Ztau = np.array([est_Ztau_map[i] for i in self.__est_Ztau])
         return {"intercept":est_a_, "intercept_sd": est_a_sd, "B_coef":est_Beta_, "B_coef_sd": est_Beta_sd, "B_coef_all_sd": est_Beta_all_sd, "sigma":est_sigma, "sigma_sd":est_sigma_sd,\
             "a_clust":est_Za, "Beta_clust":est_ZBeta, "sigma_clust":est_Ztau, "pi_a":est_pi_a_, "pi_Beta":est_pi_Beta_, "pi_sigma":est_pi_tau_}
+
+    def getPiMat(self):
+        """Get the original pi est. and matrix for a, Beta, tau
+
+        Returns:
+            piMat (dict): dictionary of pi matrices and estimated pi for a, Beta, tau.
+        """
+        if len(self.ELBO_iters) == 1:
+            raise ValueError('Please fit the model first!')
+        piMat = {"PiMat_a": self.__piStar_a[:,:self.Ka], "PiMat_Beta": self.__piStar_Beta[:,:self.KBeta], "PiMat_tau": self.__piStar_tau[:,:self.Ktau], "pi_a": self.__est_pi_a[:self.Ka], "pi_Beta": self.__est_pi_Beta[:self.KBeta], "pi_tau": self.__est_pi_tau[:self.Ktau]}
+        return piMat
 
     def checkEstError(self, estDict: dict=None, Gtruth: dict=None, plot: bool=False):
         """Check the relative L2 error of the estimates (with ground truth)
