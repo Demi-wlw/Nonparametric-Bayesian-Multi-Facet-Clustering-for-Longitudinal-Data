@@ -20,7 +20,7 @@ def l2_mat(a, b):
             l2Mat[i,j] = rel_l2(a[i].flatten(), b[j].flatten())
     return l2Mat
 
-def radar_chart(data, var, pi_sigma, fgsize,dpi,fontsize, colors: list=None, save_folder: str=None):
+def radar_chart(data, var, pi_sigma, fgsize,dpi,fontsize, colors: list=None, save_folder: str=None, min_max_scales: Union[List[tuple], None]=None):
     """
     Plot a radar chart for given data.
     
@@ -31,7 +31,13 @@ def radar_chart(data, var, pi_sigma, fgsize,dpi,fontsize, colors: list=None, sav
     - fig attributes: fgsize, dpi, fontsize
     - colors: List of colors for each series in the radar chart.
     - save_folder: String, folder to save the plot.
+    - min_max_scales: List of tuples, each tuple contains (min, max) for scaling each variable.
     """
+    def normalize_row(row, scales):
+        if scales is None:
+            return row.tolist()
+        else:
+            return [(v - mn) / (mx - mn) if mx != mn else 0 for v, (mn, mx) in zip(row, scales)]
     num_vars = len(var)
     angles = np.linspace(0, 2 * np.pi, num_vars, endpoint=False).tolist()
     angles += angles[:1]  # Close the radar chart
@@ -41,7 +47,7 @@ def radar_chart(data, var, pi_sigma, fgsize,dpi,fontsize, colors: list=None, sav
     ax.set_theta_direction(-1)
     # Draw one line per row in data
     for idx, row in enumerate(data):
-        values = row.tolist()
+        values = normalize_row(row, min_max_scales)
         values += values[:1]  # Close the radar chart
         color = colors[idx] if colors else "blue"
         labels = f"Clust{idx+1} Prob {pi_sigma[idx]:.2f}"
@@ -49,8 +55,19 @@ def radar_chart(data, var, pi_sigma, fgsize,dpi,fontsize, colors: list=None, sav
         ax.plot(angles, values, color=color, linewidth=1.5, label=labels)
     # Add labels for each axis
     plt.xticks(angles[:-1], var, fontsize=fontsize)
-    ax.legend(loc="upper right", bbox_to_anchor=(1.3, 1.1))
+    ax.legend(loc="upper right", bbox_to_anchor=(1.3,1.1)) # "upper left" -0.05, 1.1; "upper right" 1.3,1.1
     plt.tight_layout()
+    if min_max_scales:
+        ax.set_yticklabels([])  # Hide radial ticks
+        tick_radii = np.linspace(0, 1, 6)[[1,3,5]]  # positions on normalized scale
+        for i, angle in enumerate(angles[:-1]):  # skip the repeated closing angle
+            min_val, max_val = min_max_scales[i]
+            tick_vals = np.linspace(min_val, max_val, 6)[[1,3,5]]
+            for r, label in zip(tick_radii, tick_vals):
+                if i == 0:
+                    ax.text(x=angle, y=r+0.08,s=f"{label:.2f}", ha="left",va="top",fontsize=fontsize - 8,color="black")
+                else:
+                    ax.text(x=angle*(1.03+(i-2)*0.03), y=r+0.08*(len(min_max_scales)-i-1),s=f"{label:.2f}", ha="right",va="top",fontsize=fontsize - 8,color="black")
     # Save plot if requested
     if save_folder:
         plt.savefig(f"{save_folder}EstSIGMA.png", bbox_inches="tight")
