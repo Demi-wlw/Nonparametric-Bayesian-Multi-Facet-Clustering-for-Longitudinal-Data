@@ -65,9 +65,9 @@ def radar_chart(data, var, pi_sigma, fgsize,dpi,fontsize, colors: list=None, sav
             tick_vals = np.linspace(min_val, max_val, 6)[[1,3,5]]
             for r, label in zip(tick_radii, tick_vals):
                 if i == 0:
-                    ax.text(x=angle, y=r+0.08,s=f"{label:.2f}", ha="left",va="top",fontsize=fontsize - 8,color="black")
+                    ax.text(x=angle, y=r+0.08,s=f"{label:.2f}", ha="left",va="top",fontsize=fontsize - 6,color="black")
                 else:
-                    ax.text(x=angle*(1.03+(i-2)*0.03), y=r+0.08*(len(min_max_scales)-i-1),s=f"{label:.2f}", ha="right",va="top",fontsize=fontsize - 8,color="black")
+                    ax.text(x=angle*(1.03+(i-2)*0.03), y=r+0.08*(len(min_max_scales)-i-1),s=f"{label:.2f}", ha="right",va="top",fontsize=fontsize - 6,color="black")
     # Save plot if requested
     if save_folder:
         plt.savefig(f"{save_folder}EstSIGMA.png", bbox_inches="tight")
