@@ -15,7 +15,7 @@ We implemented two example time series models for multi-facet clustering:
 3. `.fit()`: start fitting by mean-field Variational Inference.
    - We recommend running the model fitting through multiple parallel runs to avoid getting stuck in the bad local optima.
    - `prune_threshold` should not be greater than `1/trunc_level`. `trunc_level` controls the maximum possible number of clusters and also affects the training speed. `prune_threshold` affects the learned number of clusters, and can be specified for each facet separately.
-4. The fitted model only returns important hyperparameters, ELBOs and training time. If you want to get estimated parameters, call `.getEstimates()`. If you want to get the estimated posterior probability matrix for each individual, call `.getPiMat()`.
+4. The fitted model only returns important hyperparameters, ELBOs and training time. If you want to get the estimated parameters, call `.getEstimates()`. If you want to get the estimated posterior probability matrix for each individual, call `.getPiMat()`.
 5. There are built-in print and plot functions to print fitting results (with ground truth if provided) `.printRes()`, visualise facets `.plotFacet()` and show facet cluster assignments `.showClust()`. You can also define your own print and plot functions.
 6. `.save()`: save the model
 
